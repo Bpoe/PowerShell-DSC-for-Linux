@@ -89,8 +89,14 @@ def set_marshall_helper(WorkspaceId, Enabled, AzureDnsAgentSvcZone, mock_worker_
             kill_hybrid_worker(WorkspaceId)
 
             # Start the worker again
-            start_daemon(["sudo", "-u", AUTOMATION_USER, "python", HYBRID_WORKER_START_PATH, WORKER_CONF_FILE_PATH, WorkspaceId,
-                          read_resoruce_version_file()])
+            if nxautomation_user_exists():
+                # With newer versions of OMS, worker should run as nxautomation user
+                start_daemon(["sudo", "-u", AUTOMATION_USER, "python", HYBRID_WORKER_START_PATH, WORKER_CONF_FILE_PATH,
+                              WorkspaceId, read_resoruce_version_file()])
+            else:
+                # With older versions versions onf OMS, worker runs as omsagent
+                start_daemon(["python", HYBRID_WORKER_START_PATH, WORKER_CONF_FILE_PATH,
+                              WorkspaceId, read_resoruce_version_file()])
 
             # Wait for the worker process to actually start
             success = False
@@ -264,7 +270,7 @@ def read_oms_primary_workspace_config_file():
             log(DEBUG, exception.message)
             raise ConfigParser.Error(exception.message)
     else:
-        error_string = "could not find file" + OMS_ADMIN_CONFIG_FILE
+        error_string = "could not find file " + OMS_ADMIN_CONFIG_FILE
         log(DEBUG, error_string)
         raise ConfigParser.Error(error_string)
 
