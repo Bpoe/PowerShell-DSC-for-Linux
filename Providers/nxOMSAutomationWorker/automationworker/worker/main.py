@@ -121,6 +121,14 @@ def generate_state_file():
     config.write(conf_file)
     conf_file.close()
 
+    if os.name.lower() != "nt":
+        import pwd
+        import grp
+        uid = pwd.getpwnam("nxautomation")
+        gid = grp.getgrnam("omiusers")
+        os.chown(state_file_path, uid.pw_uid, gid.gr_gid)
+        os.chmod(state_file_path, 0o664)
+
 
 class Worker:
     def __init__(self):
