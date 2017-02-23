@@ -204,7 +204,7 @@ KEYRING_PATH="/etc/opt/omi/conf/omsconfig/keyring.gpg"
 LOCAL_LOG_LOCATION = "/var/opt/microsoft/omsagent/log/nxOMSAutomationWorker.log"
 
 # permisson level rw- rw- r--
-FILE_PERMISSION_LEVEL = 0o774
+FILE_PERMISSION_LEVEL = 0o770
 
 AUTOMATION_USER = "nxautomation"
 
@@ -228,7 +228,6 @@ def is_oms_primary_workspace(mof_workspace_id):
 def read_worker_state():
     # Reads the state.config file and returns the values of pid, workspace_id, resource_running_version
     if os.path.isfile(WORKER_STATE_FILE_PATH):
-        os.chmod(WORKER_STATE_FILE_PATH, FILE_PERMISSION_LEVEL)
         state = ConfigParser.ConfigParser()
         try:
             state.read(WORKER_STATE_FILE_PATH)
