@@ -78,6 +78,8 @@ def set_marshall_helper(WorkspaceId, Enabled, AzureDnsAgentSvcZone, mock_worker_
             if not os.path.isfile(WORKER_CONF_FILE_PATH):
                 log(ERROR, "Linux Hybrid Worker registration file could not be created")
                 return [-1]
+            else:
+                os.chmod(WORKER_CONF_FILE_PATH, FILE_PERMISSION_LEVEL)
         except Exception, exception:
             log(ERROR, exception.message)
             return [-1]
@@ -209,7 +211,7 @@ PROXY_CONF_PATH_NEW="/etc/opt/microsoft/omsagent/proxy.conf"
 KEYRING_PATH="/etc/opt/omi/conf/omsconfig/keyring.gpg"
 LOCAL_LOG_LOCATION = "/var/opt/microsoft/omsagent/log/nxOMSAutomationWorker.log"
 
-# permisson level rw- rw- r--
+# permisson level rwx rwx ---
 FILE_PERMISSION_LEVEL = 0o770
 
 AUTOMATION_USER = "nxautomation"
