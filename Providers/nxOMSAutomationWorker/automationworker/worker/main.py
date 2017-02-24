@@ -124,10 +124,14 @@ def generate_state_file():
     if os.name.lower() != "nt":
         import pwd
         import grp
-        uid = pwd.getpwnam("nxautomation")
-        gid = grp.getgrnam("omiusers")
-        os.chown(state_file_path, uid.pw_uid, gid.gr_gid)
-        os.chmod(state_file_path, 0o664)
+        try:
+            # Old OMS agent does not create nxautomation user, skip step if user is not found
+            uid = pwd.getpwnam("nxautomation")
+            gid = grp.getgrnam("omiusers")
+            os.chown(state_file_path, uid.pw_uid, gid.gr_gid)
+            os.chmod(state_file_path, 0o664)
+        except KeyError:
+            pass
 
 
 class Worker:
