@@ -320,7 +320,7 @@ def kill_hybrid_worker(workspace_id):
     """
     if nxautomation_user_exists():
         pid = verify_hybrid_worker()
-        subprocess.call(["sudo", "pkill", "-u", AUTOMATION_USER, "--full", workspace_id])
+        subprocess.call(["sudo", "pkill", "-u", AUTOMATION_USER, "-f", workspace_id])
         # can't depend on the return value to ensure that the process was killed since it pattern matches
         retry_pid = verify_hybrid_worker()
         if pid > 0 and retry_pid > 0:
