@@ -212,7 +212,7 @@ KEYRING_PATH="/etc/opt/omi/conf/omsconfig/keyring.gpg"
 LOCAL_LOG_LOCATION = "/var/opt/microsoft/omsagent/log/nxOMSAutomationWorker.log"
 
 # permisson level rwx rwx ---
-FILE_PERMISSION_LEVEL = 0o770
+FILE_PERMISSION_LEVEL = 0770
 
 AUTOMATION_USER = "nxautomation"
 
@@ -404,7 +404,7 @@ def log(level, message):
     except:
         pass
 
-class local_log():
+class local_log:
     logger = None
     logfh = None
     def __init__(self):

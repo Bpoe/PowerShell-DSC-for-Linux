@@ -129,7 +129,7 @@ def generate_state_file():
             uid = pwd.getpwnam("nxautomation")
             gid = grp.getgrnam("omiusers")
             os.chown(state_file_path, uid.pw_uid, gid.gr_gid)
-            os.chmod(state_file_path, 0o664)
+            os.chmod(state_file_path, 0664)
         except KeyError:
             pass
 
