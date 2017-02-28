@@ -90,6 +90,11 @@ def set_marshall_helper(WorkspaceId, Enabled, AzureDnsAgentSvcZone, mock_worker_
             # Kill hybrid worker if its already running
             kill_hybrid_worker(WorkspaceId)
 
+            # Remove the conf file
+            # Important for avoiding file permission issues during update because the new worker now runs as nxautomation
+            if os.path.isfile(WORKER_STATE_FILE_PATH):
+                os.remove(WORKER_STATE_FILE_PATH)
+
             # Start the worker again
             if nxautomation_user_exists():
                 # With newer versions of OMS, worker should run as nxautomation user
